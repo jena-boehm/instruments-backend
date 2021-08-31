@@ -14,27 +14,31 @@ describe('demo routes', () => {
     imageUrl: 'https://kawaius.com/wp-content/uploads/2018/06/Kawai-RX-6-Grand-Piano.jpg'
   };
 
-  beforeEach(async() => {
-    agent = request.agent(app);
+  describe('instrument routes', () => {
 
-    instrument = await agent
-      .post('/api/v1/instruments')
-      .send(instrumentObject);
+    beforeEach(async() => {
+      await setup(pool);
 
-    return setup(pool);
-  });
+      agent = request.agent(app);
 
-  it('creates a new instrument via POST', async() => {
-    const res = await agent
-      .post('/api/v1/instruments')
-      .send(instrumentObject);
-    expect(res.body).toEqual({ ...instrumentObject, id: '1' });
-  });
+      instrument = await agent
+        .post('/api/v1/instruments')
+        .send(instrumentObject);
 
-  it('gets all instruments via GET', async() => {
-    const res = await agent
-      .get('/api/v1/instruments');
+    });
 
-    expect(res.body).toEqual({ ...instrumentObject, id: '1' });
+    it('creates a new instrument via POST', async() => {
+      const res = await agent
+        .post('/api/v1/instruments')
+        .send(instrumentObject);
+      expect(res.body).toEqual({ ...instrumentObject, id: expect.any(String) });
+    });
+
+    it('gets all instruments via GET', async() => {
+      const res = await agent
+        .get('/api/v1/instruments');
+
+      expect(res.body).toEqual([{ ...instrumentObject, id: '1' }]);
+    });
   });
 });
