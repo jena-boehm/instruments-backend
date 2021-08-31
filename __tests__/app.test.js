@@ -59,5 +59,21 @@ describe('demo routes', () => {
  
       expect(res.body).toEqual({ ...instrument.body, id: instrument.body.id });
     });
+
+    it('updates an entire instrument via PUT', async() => {
+      instrument = await agent
+        .put(`/api/v1/instruments/${instrument.body.id}`)
+        .send({
+          instrumentName: 'Kanjira',
+          instrumentType: 'Percussion', 
+          origin: 'India', 
+          imageUrl: 'https://www.gandharvaloka.ca/wp-content/uploads/d-kanjira-lrg.jpg'
+        });
+        
+      const res = await agent
+        .get(`/api/v1/instruments/${instrument.body.id}`);
+
+      expect(res.body).toEqual({ ...instrument.body, id: instrument.body.id });
+    });
   });
 });
