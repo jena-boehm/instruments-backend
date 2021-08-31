@@ -4,24 +4,41 @@ import request from 'supertest';
 import app from '../lib/app.js';
 
 describe('demo routes', () => {
-  let agent; 
+  let agent;
+  let instrument; 
 
-  beforeEach(() => {
-    agent = request.agent(app);
-    return setup(pool);
-  });
-
-  const instrument = {
+  const instrumentObject = {
     instrumentName: 'Piano',
     instrumentType: 'String, Percussion', 
     origin: 'Italy', 
     imageUrl: 'https://kawaius.com/wp-content/uploads/2018/06/Kawai-RX-6-Grand-Piano.jpg'
   };
 
-  it('creates a new instrument via POST', async() => {
-    const res = await agent
-      .post('/api/v1/instruments')
-      .send(instrument);
-    expect(res.body).toEqual({ ...instrument, id: '1' });
+  describe('instrument routes', () => {
+
+    beforeEach(async() => {
+      await setup(pool);
+
+      agent = request.agent(app);
+
+      instrument = await agent
+        .post('/api/v1/instruments')
+        .send(instrumentObject);
+
+    });
+
+    it('creates a new instrument via POST', async() => {
+      const res = await agent
+        .post('/api/v1/instruments')
+        .send(instrumentObject);
+      expect(res.body).toEqual({ ...instrumentObject, id: expect.any(String) });
+    });
+
+    it('gets all instruments via GET', async() => {
+      const res = await agent
+        .get('/api/v1/instruments');
+
+      expect(res.body).toEqual([{ ...instrumentObject, id: '1' }]);
+    });
   });
 });
