@@ -22,6 +22,6 @@ describe('demo routes', () => {
     const res = await agent
       .post('/api/v1/instruments')
       .send(instrument);
-    expect(res.body).toEqual({ ...instrument, id: 1 });
+    expect(res.body).toEqual({ ...instrument, id: '1' });
   });
 });
