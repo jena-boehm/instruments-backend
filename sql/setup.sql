@@ -9,9 +9,9 @@ CREATE TABLE instruments(
     image_url TEXT NOT NULL
 );
 
-CREATE TABLE musicians(
-    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    instrument_id BIGINT REFERENCES instruments(id),
-    musician_name TEXT NOT NULL,
-    image_url TEXT NOT NULL
-);
+-- CREATE TABLE musicians(
+--     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+--     instrument_id BIGINT REFERENCES instruments(id),
+--     musician_name TEXT NOT NULL,
+--     image_url TEXT NOT NULL
+-- );

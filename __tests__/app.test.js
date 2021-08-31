@@ -75,5 +75,12 @@ describe('demo routes', () => {
 
       expect(res.body).toEqual({ ...instrument.body, id: instrument.body.id });
     });
+
+    it('deletes an instrument via DELETE', async() => {
+      const res = await agent
+        .delete(`/api/v1/instruments/${instrument.body.id}`);
+
+      expect(res.body).toEqual({ ...instrument.body, id: instrument.body.id });
+    });
   });
 });
