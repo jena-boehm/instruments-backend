@@ -46,5 +46,18 @@ describe('demo routes', () => {
 
       expect(res.body).toEqual({ ...instrumentObject, id: instrument.body.id });
     });
+
+    it('updates an instrument imageUrl via PATCH', async() => {
+      instrument = await agent
+        .patch(`/api/v1/instruments/${instrument.body.id}`)
+        .send({ 
+          imageUrl: 'https://imgs.classicfm.com/images/218395?crop=16_9&width=660&relax=1&signature=q7SbbezAL_Tgo3vNAh8Ef7mm1oU='
+        });
+
+      const res = await agent 
+        .get(`/api/v1/instruments/${instrument.body.id}`);
+ 
+      expect(res.body).toEqual({ ...instrument.body, id: instrument.body.id });
+    });
   });
 });
