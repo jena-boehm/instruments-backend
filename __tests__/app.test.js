@@ -24,7 +24,6 @@ describe('demo routes', () => {
       instrument = await agent
         .post('/api/v1/instruments')
         .send(instrumentObject);
-
     });
 
     it('creates a new instrument via POST', async() => {
@@ -38,7 +37,14 @@ describe('demo routes', () => {
       const res = await agent
         .get('/api/v1/instruments');
 
-      expect(res.body).toEqual([{ ...instrumentObject, id: '1' }]);
+      expect(res.body).toEqual([{ ...instrumentObject, id: instrument.body.id }]);
+    });
+
+    it('gets an instrument by id via GET', async() => {
+      const res = await agent
+        .get(`/api/v1/instruments/${instrument.body.id}`);
+
+      expect(res.body).toEqual({ ...instrumentObject, id: instrument.body.id });
     });
   });
 });
